@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <word-relay start-word="Jindol"></word-relay>
+        <word-relay start-word="JinUk"></word-relay>
+        <word-relay start-word="DduckKu"></word-relay>
+    </div>
+    <script>
+        Vue.component('word-relay',{ // 전역 컴포넌트
+            template:`
+                <div>
+                    <div>{{word}}</div>
+                    <form v-on:submit="onSubmitForm">
+                        <input type="text" ref="answer" v-model="value">
+                        <button type="submit">submit</button>
+                    </form>
+                    <div>{{result}}</div>
+                </div>
+            `,
+            props: ['start-word'],
+            data(){
+                return{
+                    word: this.startWord,
+                    result: '',
+                    value: '',
+                }
+            },
+            methods:{
+                onSubmitForm(e) {
+                    e.preventDefault()
+                    if (this.word[this.word.length - 1] === this.value[0]) {
+                        this.result = 'is answer'
+                        this.word = this.value
+                    } else this.result = 'is wrong'
+                    this.value = ''
+                    this.$refs.answer.focus()
+                },
+            }
+        })
+    </script>
+    <script>
+      const app = new Vue({
+        el: '#root',
+      })
+    </script>
+</body>
+</html>
